@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/kkevinsm/internship_iris/build",
+  "command": "/usr/bin/g++   -isystem /usr/include/opencv4  -g   -o CMakeFiles/main.dir/main.cpp.o -c /home/kkevinsm/internship_iris/main.cpp",
+  "file": "/home/kkevinsm/internship_iris/main.cpp"
+}
+]
