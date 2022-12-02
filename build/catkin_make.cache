@@ -1,0 +1,2 @@
+IRIS
+-DCATKIN_DEVEL_PREFIX=/home/kkevinsm/finalproject_iris/devel -DCMAKE_INSTALL_PREFIX=/home/kkevinsm/finalproject_iris/install -G Unix Makefiles

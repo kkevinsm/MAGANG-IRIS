@@ -1,0 +1,2 @@
+set(IRIS_MESSAGE_FILES "msg/BSRX.msg;msg/BSTX.msg")
+set(IRIS_SERVICE_FILES "")

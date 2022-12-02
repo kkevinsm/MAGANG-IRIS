@@ -1,0 +1,8 @@
+prefix=/home/kkevinsm/finalproject_iris/src/build/devel
+
+Name: IRIS
+Description: Description of IRIS
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
