@@ -10,8 +10,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
+#define PI 3.14159
+
+using namespace std;
 
 int xbola, ybola, status, xtujuan, ytujuan, posx, posy, postheta, vx=10, vy=10, vt=10;
+double sudut, result;
 
 void callback1(const IRIS::BSTX::ConstPtr& msg){
    xbola=msg->bola_y;
@@ -42,17 +46,17 @@ void publish(const ros::TimerEvent &e){
             send.bola_x=xbola;
             send.bola_y=ybola;
             pub.publish(send);
-            
+
             static struct termios oldt;
             static struct termios newt;
-            tcgetattr( STDIN_FILENO, &oldt);           // save old settings
+            tcgetattr( STDIN_FILENO, &oldt);            // save old settings
             newt = oldt;
-            newt.c_lflag &= ~(ICANON);                 // disable buffering      
-            tcsetattr( STDIN_FILENO, TCSANOW, &newt);  // apply new settings
+            newt.c_lflag &= ~(ICANON);                  // disable buffering      
+            tcsetattr( STDIN_FILENO, TCSANOW, &newt);   // apply new settings
 
-            int c = getchar();  // read character (non-blocking)
+            int c = getchar();                          // read character (non-blocking)
 
-            tcsetattr( STDIN_FILENO, TCSANOW, &oldt);  // restore old settings
+            tcsetattr( STDIN_FILENO, TCSANOW, &oldt);   // restore old settings
                 if(c == 'w'){
                     posx-=vx;
                 }else if (c == 'a')
@@ -72,6 +76,37 @@ void publish(const ros::TimerEvent &e){
                     postheta+=vt;
                 }
             
+        }
+
+
+        else if (status==2){
+
+            send.bola_x=xbola;
+            send.bola_y=ybola;
+            pub.publish(send);
+
+            // double sudut = atan(ytujuan/xtujuan);
+            // postheta=(sudut*180)/PI;
+            // if(abs(sqrt(pow(xtujuan,2)+pow(ytujuan,2))-sqrt(pow(posx,2)+pow(posy,2)))){
+            //     posx+=vx;
+            //     posy+=vy;
+            // }   
+
+            // cout<<"atan(ytujuan/xtujuan) = "<< result <<endl;
+
+            if (xtujuan>=posx){
+                posx+=vx;
+            }
+            if (ytujuan>=posy){
+                posy+=vy;
+            }
+            if (xtujuan<posx){
+                posx-=vx;
+            }
+            if (ytujuan<posy){
+                posy-=vy;
+            }
+
         }
 
         else if (status==3)

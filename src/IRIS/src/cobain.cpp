@@ -11,24 +11,27 @@
 #include <termios.h>
 #include <stdio.h>
 
+using namespace std;
+using namespace cv;
+
 int main(int argc, char** argv){
 
-    cv::Mat img=cv::imread("/home/kkevinsm/finalproject_iris/src/IRIS/img/position 3.jpeg");
-    cv::Mat resized, color, bola, erbola, dilbola;
+    Mat img=imread("/home/kkevinsm/finalproject_iris/src/IRIS/img/position 3.jpeg");
+    Mat resized, color, bola, erbola, dilbola;
 
-    cv::resize(img,resized,cv::Size(900,600),cv::INTER_LINEAR);
-    cv::cvtColor(resized,color,cv::COLOR_BGR2HSV);
-    cv::inRange(color,cv::Scalar(0,100,12),cv::Scalar(15,255,255),bola);
-    cv::Mat element = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(10,6), cv::Point(-1,-1));//erode dilate dengan pendekatan bentuk elips
-    cv::erode(bola,erbola,element,cv::Point(-1,-1),1);
-    cv::dilate(erbola,dilbola,element,cv::Point(-1,-1),1);
+    resize(img,resized,Size(900,600),INTER_LINEAR);
+    cvtColor(resized,color,COLOR_BGR2HSV);
+    inRange(color,Scalar(0,100,12),Scalar(15,255,255),bola);
+    Mat element = getStructuringElement(MORPH_ELLIPSE, Size(10,6), Point(-1,-1));//erode dilate dengan pendekatan bentuk elips
+    erode(bola,erbola,element,Point(-1,-1),1);
+    dilate(erbola,dilbola,element,Point(-1,-1),1);
 
-    std::vector<std::vector<cv::Point>> contoursb;
-    std::vector<cv::Vec4i> hierarchyb;
+    vector<vector<Point>> contoursb;
+    vector<Vec4i> hierarchyb;
 
-    cv::findContours(dilbola,contoursb,hierarchyb,cv::RETR_EXTERNAL,cv::CHAIN_APPROX_SIMPLE);
+    findContours(dilbola,contoursb,hierarchyb,RETR_EXTERNAL,CHAIN_APPROX_SIMPLE);
 
-    cv::RotatedRect r = cv::minAreaRect(contoursb[0]);
+    RotatedRect r = minAreaRect(contoursb[0]);
     
     ros::init(argc, argv, "cobain");
     ros::NodeHandle nh;
